@@ -7,6 +7,11 @@ async fn main() -> std::io::Result<()> {
         .await
 }
 
-async fn language_model_handler(req_body: String) -> impl Responder {
-    HttpResponse::Ok().body(format!("Request received: {}", req_body))
+async fn language_model_handler(req_body: web::Json<LanguageModelRequest>) -> impl Responder {
+    let input_text = &req_body.input_text;
+    HttpResponse::Ok().body(format!("Parsed text: {}", input_text))
+}
+#[derive(Deserialize)]
+struct LanguageModelRequest {
+    input_text: String,
 }
